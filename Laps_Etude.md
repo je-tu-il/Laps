@@ -3,6 +3,7 @@
 > **Document d'étude de synthèse (*Review Article*)**  
 > **Auteur :** Jules Reymond  
 > **Date de publication :** 13 octobre 2026  
+> **DOI (CERN / Zenodo) :** [10.5281/zenodo.23352108](https://doi.org/10.5281/zenodo.23352108)  
 > **Licence :** Creative Commons Attribution - Pas d'Utilisation Commerciale - Pas de Modification 4.0 International (CC BY-NC-ND 4.0)  
 > **Identifiant de métadonnées :** [CITATION.cff](file:///e:/Reste/PROJET_PERSO/Laps/CITATION.cff)  
 

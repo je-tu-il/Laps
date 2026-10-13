@@ -1,6 +1,7 @@
 # ==============================================================================
 # PROJET LAPS — REGISTRE D'EMPREINTES CRYPTOGRAPHIQUES SHA-256
 # Date de calcul : 13 octobre 2026
+# DOI CERN / Zenodo : 10.5281/zenodo.23352108
 # Référence : Publication et Archivage Légal (Zenodo CERN / Software Heritage)
 #
 # Commande de vérification d'intégrité (Linux / macOS) :
@@ -10,10 +11,10 @@
 # ==============================================================================
 
 c47a2e4a34378d8ee38476b014e2fe6bce12bf2934cfc12aba52c3a2df087c1a  .gitignore
-41fe8ed3398d67a9ebbc39e97ef724a2f4c19a050ec0f00c519443dd5e0d464d  CITATION.cff
+c8360d85432a99f8f152f17c69bcb33c924f1c3fd41390ed144411bb41d52c57  CITATION.cff
 c5fe144c8742d4affb845933b71c6e9384c8ebf6d953596915221c60b1737039  LICENSE
-c3ac5a8ed0c73dbcb375f89c57abc364036a16f63c5836ab54ab6820a2f05d03  Laps_Etude.md
-bab0362e3e901c5460f69b959e4c212302782c544e2c47a7b2b880b943bc0f66  README.md
+85ab762715a97e8c87164b28147473905a8152b494a7c3cb076b9fb68eaaf2ae  Laps_Etude.md
+20ba780a5acb1a5dcc6d0cc9f906e195a4fb4cfb2fdcc4111dd8e688386419e8  README.md
 cbfe8337a82a816d0707a635ce6b98c61d1a3713bff1d08371d38ef17e92c0df  visualizer.html
 7a36cbaae3f2f75f1fde272e9fbedfbb36af198efef962dc3872a0091e5507c7  assets/animated_lapse_foliation.svg
 d9853e33296b974e02431e71c7ef13125288f9ab633b8804920330ace6d607a2  assets/animated_clocks_drift.svg

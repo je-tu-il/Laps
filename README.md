@@ -1,9 +1,9 @@
 # Projet Laps : Chronométrie Relativiste & Standardisation Spatiale
 
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23352108.svg)](https://doi.org/10.5281/zenodo.23352108)
 [![Git Signed](https://img.shields.io/badge/Commit-Verified_Ed25519-success.svg)](#traçabilité-cryptographique-et-intégrité-légale)
-[![SWHID](https://img.shields.io/badge/Software_Heritage-Archived-blue.svg)](https://archive.softwareheritage.org/)
+[![SWHID](https://img.shields.io/badge/Software_Heritage-Archived-blue.svg)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/je-tu-il/Laps)
 
 > **Étude de synthèse sur le formalisme 3+1 d'Arnowitt-Deser-Misner (ADM), la fonction de laps ($N$), et les architectures de synchronisation spatiale (Temps Lunaire Coordonné - LTC & Temps Martien Coordonné - MTC).**
 
@@ -131,8 +131,9 @@ Pour citer ce travail dans une publication ou un rapport technique, utilisez le 
   year      = {2026},
   month     = {10},
   version   = {1.0.0},
-  note      = {Archivé sous licence CC BY-NC-ND 4.0},
-  url       = {https://github.com/Je-tu-il/Laps}
+  doi       = {10.5281/zenodo.23352108},
+  url       = {https://doi.org/10.5281/zenodo.23352108},
+  note      = {Archivé sous licence CC BY-NC-ND 4.0}
 }
 ```
 

@@ -2,6 +2,7 @@ cff-version: 1.2.0
 message: "Si vous utilisez ce document, veuillez le citer comme suit."
 title: "Le Projet Laps et la Dynamique de la Vitesse du Temps : Formalisme Relativiste, Chronométrie Spatiale et Standardisation Cislunaire"
 version: 1.0.0
+doi: 10.5281/zenodo.23352108
 date-released: 2026-10-13
 license: CC-BY-NC-ND-4.0
 authors:
