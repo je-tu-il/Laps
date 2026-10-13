@@ -1,0 +1,231 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080c14" />
+      <stop offset="100%" stop-color="#121824" />
+    </linearGradient>
+
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1b2230" />
+      <stop offset="100%" stop-color="#101520" />
+    </linearGradient>
+
+    <!-- Glowing filters -->
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+    <filter id="glowRed" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    /* Clock tick animations with subtle speed differences simulating drift */
+    @keyframes tickRef {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes pulseRetard {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+    @keyframes pulseAvance {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    .tick-ref { animation: tickRef 4s linear infinite; transform-origin: 50px 50px; }
+    .tick-iss { animation: tickRef 4.08s linear infinite; transform-origin: 50px 50px; }
+    .tick-gps { animation: tickRef 3.92s linear infinite; transform-origin: 50px 50px; }
+    .tick-mars { animation: tickRef 3.88s linear infinite; transform-origin: 50px 50px; }
+    .tick-lune { animation: tickRef 3.84s linear infinite; transform-origin: 50px 50px; }
+
+    .pulse-delay { animation: pulseRetard 2s infinite ease-in-out; }
+    .pulse-fast { animation: pulseAvance 1.8s infinite ease-in-out; }
+
+    .hdr-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 20px; font-weight: 700; fill: #ffffff; }
+    .hdr-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; fill: #8b949e; }
+    .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #ffffff; }
+    .metric-val { font-family: "Courier New", monospace; font-size: 16px; font-weight: 700; }
+    .metric-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; fill: #8b949e; }
+  </style>
+
+  <!-- Background -->
+  <rect width="950" height="480" rx="14" fill="url(#bgGrad2)" stroke="#30363d" stroke-width="1.5" />
+
+  <!-- Header -->
+  <g transform="translate(40, 36)">
+    <text class="hdr-title" x="0" y="0">COMPARATIF RELATIVISTE : DÉRIVES CHRONOMÉTRIQUES EN TEMPS PROPRE</text>
+    <text class="hdr-sub" x="0" y="22">Bilan net entre Dilatation Gravitationnelle (RG) et Ralentissement Cinématique (RR) / 24h UTC</text>
+  </g>
+
+  <!-- 5 CHRONOMETRIC CARDS -->
+
+  <!-- CARD 1 : TERRE (GEOIDE - UTC REFERENCE) -->
+  <g transform="translate(30, 90)">
+    <rect width="165" height="330" rx="10" fill="url(#cardGrad)" stroke="#388bfd" stroke-width="1.5" />
+    <text class="card-title" x="18" y="32">Terre (Géoïde)</text>
+    <text class="metric-sub" x="18" y="50">Référence SI (UTC/TT)</text>
+    
+    <!-- Mini Clock face -->
+    <g transform="translate(32, 70)">
+      <circle cx="50" cy="50" r="42" fill="#0d1117" stroke="#388bfd" stroke-width="2" />
+      <line x1="50" y1="12" x2="50" y2="18" stroke="#8b949e" stroke-width="2" />
+      <line x1="88" y1="50" x2="82" y2="50" stroke="#8b949e" stroke-width="2" />
+      <line x1="50" y1="88" x2="50" y2="82" stroke="#8b949e" stroke-width="2" />
+      <line x1="12" y1="50" x2="18" y2="50" stroke="#8b949e" stroke-width="2" />
+      <!-- Hands -->
+      <g class="tick-ref">
+        <line x1="50" y1="50" x2="50" y2="20" stroke="#58a6ff" stroke-width="2.5" stroke-linecap="round" />
+        <circle cx="50" cy="50" r="3" fill="#58a6ff" />
+      </g>
+    </g>
+
+    <!-- Drift Value Badge -->
+    <rect x="15" y="185" width="135" height="38" rx="6" fill="#0d1117" stroke="#30363d" />
+    <text class="metric-val" x="25" y="210" fill="#58a6ff">0.00 µs/j</text>
+
+    <!-- Details -->
+    <text class="metric-sub" x="18" y="246">• Potentiel : 1.0 g</text>
+    <text class="metric-sub" x="18" y="266">• Vitesse orbitale : 0 ref</text>
+    <text class="metric-sub" x="18" y="286">• Régime : Étalon pivot</text>
+    <text class="metric-sub" x="18" y="306" fill="#58a6ff">N = 1 (Normalisé)</text>
+  </g>
+
+  <!-- CARD 2 : ISS (LEO 400 KM) -->
+  <g transform="translate(210, 90)">
+    <rect width="165" height="330" rx="10" fill="url(#cardGrad)" stroke="#f85149" stroke-width="1.2" />
+    <text class="card-title" x="18" y="32">Station ISS</text>
+    <text class="metric-sub" x="18" y="50">LEO (~400 km)</text>
+    
+    <!-- Mini Clock face -->
+    <g transform="translate(32, 70)">
+      <circle cx="50" cy="50" r="42" fill="#0d1117" stroke="#f85149" stroke-width="2" />
+      <line x1="50" y1="12" x2="50" y2="18" stroke="#8b949e" stroke-width="2" />
+      <line x1="88" y1="50" x2="82" y2="50" stroke="#8b949e" stroke-width="2" />
+      <line x1="50" y1="88" x2="50" y2="82" stroke="#8b949e" stroke-width="2" />
+      <line x1="12" y1="50" x2="18" y2="50" stroke="#8b949e" stroke-width="2" />
+      <!-- Hands -->
+      <g class="tick-iss">
+        <line x1="50" y1="50" x2="50" y2="20" stroke="#f85149" stroke-width="2.5" stroke-linecap="round" />
+        <circle cx="50" cy="50" r="3" fill="#f85149" />
+      </g>
+    </g>
+
+    <!-- Drift Value Badge -->
+    <rect x="15" y="185" width="135" height="38" rx="6" fill="#2d1214" stroke="#f85149" />
+    <text class="metric-val" x="22" y="210" fill="#ff7b72">-28.0 µs/j</text>
+
+    <!-- Details -->
+    <text class="metric-sub" x="18" y="246">• Vitesse : 28 000 km/h</text>
+    <text class="metric-sub" x="18" y="266">• Gravité : -3.5 µs</text>
+    <text class="metric-sub" x="18" y="286">• Vitesse : -31.5 µs</text>
+    <text class="metric-sub" x="18" y="306" fill="#ff7b72">Ralentissement net (RR)</text>
+  </g>
+
+  <!-- CARD 3 : GPS (MEO 20 200 KM) -->
+  <g transform="translate(390, 90)">
+    <rect width="165" height="330" rx="10" fill="url(#cardGrad)" stroke="#3fb950" stroke-width="1.2" />
+    <text class="card-title" x="18" y="32">Constell. GPS</text>
+    <text class="metric-sub" x="18" y="50">MEO (~20 000 km)</text>
+    
+    <!-- Mini Clock face -->
+    <g transform="translate(32, 70)">
+      <circle cx="50" cy="50" r="42" fill="#0d1117" stroke="#3fb950" stroke-width="2" />
+      <line x1="50" y1="12" x2="50" y2="18" stroke="#8b949e" stroke-width="2" />
+      <line x1="88" y1="50" x2="82" y2="50" stroke="#8b949e" stroke-width="2" />
+      <line x1="50" y1="88" x2="50" y2="82" stroke="#8b949e" stroke-width="2" />
+      <line x1="12" y1="50" x2="18" y2="50" stroke="#8b949e" stroke-width="2" />
+      <!-- Hands -->
+      <g class="tick-gps">
+        <line x1="50" y1="50" x2="50" y2="20" stroke="#3fb950" stroke-width="2.5" stroke-linecap="round" />
+        <circle cx="50" cy="50" r="3" fill="#3fb950" />
+      </g>
+    </g>
+
+    <!-- Drift Value Badge -->
+    <rect x="15" y="185" width="135" height="38" rx="6" fill="#122619" stroke="#3fb950" />
+    <text class="metric-val" x="22" y="210" fill="#3fb950">+38.5 µs/j</text>
+
+    <!-- Details -->
+    <text class="metric-sub" x="18" y="246">• Vitesse : 14 000 km/h</text>
+    <text class="metric-sub" x="18" y="266">• Gravité : +45.7 µs</text>
+    <text class="metric-sub" x="18" y="286">• Vitesse : -7.2 µs</text>
+    <text class="metric-sub" x="18" y="306" fill="#56d364">Accélération nette (RG)</text>
+  </g>
+
+  <!-- CARD 4 : MARS (SURFACE - MTC) -->
+  <g transform="translate(570, 90)">
+    <rect width="165" height="330" rx="10" fill="url(#cardGrad)" stroke="#db6d28" stroke-width="1.2" />
+    <text class="card-title" x="18" y="32">Mars (Surface)</text>
+    <text class="metric-sub" x="18" y="50">Futur standard MTC</text>
+    
+    <!-- Mini Clock face -->
+    <g transform="translate(32, 70)">
+      <circle cx="50" cy="50" r="42" fill="#0d1117" stroke="#db6d28" stroke-width="2" />
+      <line x1="50" y1="12" x2="50" y2="18" stroke="#8b949e" stroke-width="2" />
+      <line x1="88" y1="50" x2="82" y2="50" stroke="#8b949e" stroke-width="2" />
+      <line x1="50" y1="88" x2="50" y2="82" stroke="#8b949e" stroke-width="2" />
+      <line x1="12" y1="50" x2="18" y2="50" stroke="#8b949e" stroke-width="2" />
+      <!-- Hands -->
+      <g class="tick-mars">
+        <line x1="50" y1="50" x2="50" y2="20" stroke="#db6d28" stroke-width="2.5" stroke-linecap="round" />
+        <circle cx="50" cy="50" r="3" fill="#db6d28" />
+      </g>
+    </g>
+
+    <!-- Drift Value Badge -->
+    <rect x="15" y="185" width="135" height="38" rx="6" fill="#2d1d13" stroke="#db6d28" />
+    <text class="metric-val" x="22" y="210" fill="#f0883e">+49.0 µs/j</text>
+
+    <!-- Details -->
+    <text class="metric-sub" x="18" y="246">• Masse : 0.107 M_terre</text>
+    <text class="metric-sub" x="18" y="266">• Rayon Schw : 0.95 mm</text>
+    <text class="metric-sub" x="18" y="286">• Dérive/an : +17.9 ms</text>
+    <text class="metric-sub" x="18" y="306" fill="#f0883e">Puits modéré (RG)</text>
+  </g>
+
+  <!-- CARD 5 : LUNE (SELENOIDE - LTC) -->
+  <g transform="translate(750, 90)">
+    <rect width="165" height="330" rx="10" fill="url(#cardGrad)" stroke="#a371f7" stroke-width="1.5" />
+    <text class="card-title" x="18" y="32">Lune (Sélénoïde)</text>
+    <text class="metric-sub" x="18" y="50">Standard LTC (NIST/NASA)</text>
+    
+    <!-- Mini Clock face -->
+    <g transform="translate(32, 70)">
+      <circle cx="50" cy="50" r="42" fill="#0d1117" stroke="#a371f7" stroke-width="2" />
+      <line x1="50" y1="12" x2="50" y2="18" stroke="#8b949e" stroke-width="2" />
+      <line x1="88" y1="50" x2="82" y2="50" stroke="#8b949e" stroke-width="2" />
+      <line x1="50" y1="88" x2="50" y2="82" stroke="#8b949e" stroke-width="2" />
+      <line x1="12" y1="50" x2="18" y2="50" stroke="#8b949e" stroke-width="2" />
+      <!-- Hands -->
+      <g class="tick-lune">
+        <line x1="50" y1="50" x2="50" y2="20" stroke="#a371f7" stroke-width="2.5" stroke-linecap="round" />
+        <circle cx="50" cy="50" r="3" fill="#a371f7" />
+      </g>
+    </g>
+
+    <!-- Drift Value Badge -->
+    <rect x="15" y="185" width="135" height="38" rx="6" fill="#231838" stroke="#a371f7" />
+    <text class="metric-val" x="20" y="210" fill="#d2a8ff">+56.02 µs/j</text>
+
+    <!-- Details -->
+    <text class="metric-sub" x="18" y="246">• Gravité : 1/6 g</text>
+    <text class="metric-sub" x="18" y="266">• Gain : 1 s / 48.9 ans</text>
+    <text class="metric-sub" x="18" y="286">• Dérive TCL : +58.7 µs</text>
+    <text class="metric-sub" x="18" y="306" fill="#d2a8ff">Directive OSTP 2026</text>
+  </g>
+
+  <!-- Bottom alert note -->
+  <g transform="translate(30, 435)">
+    <text class="metric-sub" x="0" y="12" fill="#8b949e">
+      Note métrologique : À la vitesse de la lumière (c ≈ 30 cm/ns), une dérive non corrigée de 38.5 µs/j (GPS) produit une erreur de positionnement > 11.5 km/jour.
+    </text>
+  </g>
+</svg>

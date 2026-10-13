@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "Si vous utilisez ce document, veuillez le citer comme suit."
+title: "Le Projet Laps et la Dynamique de la Vitesse du Temps : Formalisme Relativiste, Chronométrie Spatiale et Standardisation Cislunaire"
+version: 1.0.0
+date-released: 2026-10-13
+license: CC-BY-NC-ND-4.0
+authors:
+  - family-names: "Reymond"
+    given-names: "Jules"
+    email: "jules.lili.reymond@gmail.com"
+repository-code: "https://github.com/Je-tu-il/Laps"
+keywords:
+  - "relativité générale"
+  - "formalisme ADM"
+  - "fonction de laps"
+  - "chronométrie spatiale"
+  - "Temps Lunaire Coordonné"
+  - "LTC"
+  - "PNT cislunaire"
+  - "dilatation temporelle"
+abstract: >-
+  Article de synthèse examinant le cadre théorique et métrologique régissant les variations
+  locales de l'écoulement du temps propre en relativité restreinte et générale. À travers
+  la décomposition hamiltonienne 3+1 d'Arnowitt-Deser-Misner (ADM), la fonction de laps (N)
+  est analysée comme opérateur géométrique reliant le temps propre au temps-coordonnée.
+  L'étude traite des échelles de temps atomiques (TAI, UTC, TT, TCG, TCB), des corrections
+  orbitales (GPS, ISS) et des cadres normatifs du Temps Lunaire Coordonné (LTC) et Martien (MTC).
