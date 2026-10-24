@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projet Laps — Simulateur Relativiste & Décomposition ADM</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111726;
+      --card-border: #1e293b;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --accent-green: #34d399;
+      --accent-red: #f87171;
+      --accent-purple: #c084fc;
+      --accent-orange: #fb923c;
+      --gold: #fbbf24;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      padding: 24px;
+    }
+    header {
+      max-width: 1300px;
+      margin: 0 auto 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 20px;
+    }
+    .brand h1 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .brand p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .nav-tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #1e293b;
+      color: #94a3b8;
+      border: 1px solid #334155;
+    }
+    .badge.active {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--primary);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    main {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 1000px) {
+      main { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* Clocks display */
+    .clocks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .clock-item {
+      background: #0d121f;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .clock-item.ref { border-color: rgba(56, 189, 248, 0.5); }
+    .clock-item.retard { border-color: rgba(248, 113, 113, 0.4); }
+    .clock-item.avance-gps { border-color: rgba(52, 211, 153, 0.4); }
+    .clock-item.avance-moon { border-color: rgba(192, 132, 252, 0.5); }
+    .clock-item.avance-mars { border-color: rgba(251, 146, 60, 0.5); }
+
+    .clock-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .clock-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .clock-time {
+      font-family: "Courier New", monospace;
+      font-size: 18px;
+      font-weight: 700;
+      color: #f8fafc;
+      letter-spacing: 1px;
+      margin: 6px 0;
+    }
+    .clock-drift {
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .drift-zero { background: rgba(56, 189, 248, 0.15); color: var(--primary); }
+    .drift-neg { background: rgba(248, 113, 113, 0.15); color: var(--accent-red); }
+    .drift-pos { background: rgba(52, 211, 153, 0.15); color: var(--accent-green); }
+    .drift-moon { background: rgba(192, 132, 252, 0.15); color: var(--accent-purple); }
+    .drift-mars { background: rgba(251, 146, 60, 0.15); color: var(--accent-orange); }
+
+    /* Controls */
+    .controls-panel {
+      background: #0d121f;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 14px;
+    }
+    .control-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .control-label {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .control-val {
+      font-family: "Courier New", monospace;
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    input[type=range] {
+      width: 100%;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Canvas area */
+    canvas {
+      width: 100%;
+      height: 310px;
+      background: #060911;
+      border-radius: 10px;
+      border: 1px solid #1e293b;
+      display: block;
+    }
+
+    /* Equation Box */
+    .math-callout {
+      background: #0d121f;
+      border-left: 3px solid var(--primary);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      font-family: "Courier New", monospace;
+      font-size: 13px;
+      color: #93c5fd;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    button {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button:hover {
+      background: #334155;
+      color: #fff;
+    }
+    button.active {
+      background: var(--primary);
+      color: #090d16;
+      border-color: var(--primary);
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+    }
+    table.data-table th {
+      padding: 10px;
+      background: #0d121f;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--card-border);
+    }
+    table.data-table td {
+      padding: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <h1>PROJET LAPS — SIMULATEUR DE CHRONOMÉTRIE RELATIVISTE</h1>
+      <p>Formalisme ADM (Arnowitt-Deser-Misner) • Fonction de Laps N • Temps Lunaire Coordonné (LTC)</p>
+    </div>
+    <div class="nav-tags">
+      <span class="badge active">Simulation 60 FPS</span>
+      <span class="badge">NIST / UAI 2024</span>
+      <span class="badge">CC BY-NC-ND 4.0</span>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- SECTION 1: RELATIVISTIC MULTI-CLOCK -->
+    <div class="card full-width">
+      <div class="card-header">
+        <h2 class="card-title">⏱️ Synchronisation des Horloges Propres (Temps Réel Relativiste)</h2>
+        <div class="btn-group">
+          <button id="btnSpeed1" class="active" onclick="setSpeed(1)">Vitesse 1x</button>
+          <button id="btnSpeedFast" onclick="setSpeed(3600)">1h / sec</button>
+          <button id="btnSpeedHyper" onclick="setSpeed(86400)">1 jour / sec</button>
+          <button id="btnReset" onclick="resetClocks()">Réinitialiser</button>
+        </div>
+      </div>
+      <div class="card-desc">
+        Visualisation en temps réel de la divergence chronométrique entre cinq référentiels atomiques. Les dérives sont calculées rigoureusement selon les métriques de Schwarzschild et de Lorentz.
+      </div>
+
+      <div class="clocks-grid">
+        <!-- Earth Geoid -->
+        <div class="clock-item ref">
+          <div class="clock-name">🌍 Terre (Géoïde)</div>
+          <div class="clock-sub">Étalon Pivot SI (UTC / TT)</div>
+          <div class="clock-time" id="clockEarth">00:00:00.000</div>
+          <div class="clock-drift drift-zero">Δt = 0.000 µs (Ref)</div>
+          <div style="font-size: 10px; color: #64748b; margin-top: 6px;">N = 1.000000000</div>
+        </div>
+
+        <!-- ISS LEO -->
+        <div class="clock-item retard">
+          <div class="clock-name">🛰️ Station ISS</div>
+          <div class="clock-sub">LEO (~400 km, 28 000 km/h)</div>
+          <div class="clock-time" id="clockISS">00:00:00.000</div>
+          <div class="clock-drift drift-neg" id="driftISS">-28.00 µs/jour</div>
+          <div style="font-size: 10px; color: #f87171; margin-top: 6px;">Retard Cinématique (RR)</div>
+        </div>
+
+        <!-- GPS MEO -->
+        <div class="clock-item avance-gps">
+          <div class="clock-name">📡 Constellation GPS</div>
+          <div class="clock-sub">MEO (~20 200 km, 14 000 km/h)</div>
+          <div class="clock-time" id="clockGPS">00:00:00.000</div>
+          <div class="clock-drift drift-pos" id="driftGPS">+38.50 µs/jour</div>
+          <div style="font-size: 10px; color: #34d399; margin-top: 6px;">Avance Nette (+45.7 - 7.2)</div>
+        </div>
+
+        <!-- Moon LTC -->
+        <div class="clock-item avance-moon">
+          <div class="clock-name">🌕 Lune (Sélénoïde)</div>
+          <div class="clock-sub">Standard LTC (NIST / OSTP)</div>
+          <div class="clock-time" id="clockMoon">00:00:00.000</div>
+          <div class="clock-drift drift-moon" id="driftMoon">+56.02 µs/jour</div>
+          <div style="font-size: 10px; color: #c084fc; margin-top: 6px;">Puits très faible (1/6 g)</div>
+        </div>
+
+        <!-- Mars MTC -->
+        <div class="clock-item avance-mars">
+          <div class="clock-name">🔴 Mars (Surface)</div>
+          <div class="clock-sub">Projet MTC (Jezero Crater)</div>
+          <div class="clock-time" id="clockMars">00:00:00.000</div>
+          <div class="clock-drift drift-mars" id="driftMars">+49.00 µs/jour</div>
+          <div style="font-size: 10px; color: #fb923c; margin-top: 6px;">Masse = 0.107 M⊕</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: ADM FOLIATION 3+1 CANVAS -->
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">🌌 Feuilletage Spatio-Temporel ADM (3+1)</h2>
+        <span class="badge active" id="lapseDisplay">N = 0.9999999993</span>
+      </div>
+      <div class="card-desc">
+        Représentation dynamique des hypersurfaces spatiales Σ_t séparées par le temps propre dτ = N · dt.
+      </div>
+
+      <canvas id="admCanvas" width="600" height="310"></canvas>
+
+      <div class="math-callout">
+        ds² = -N² dt² + h_ij (dxⁱ + βⁱ dt)(dxʲ + βʲ dt)<br>
+        dτ = N dt &nbsp;|&nbsp; Effet Lense-Thirring : βⁱ ≠ 0
+      </div>
+    </div>
+
+    <!-- SECTION 3: INTERACTIVE RELATIVISTIC EXPLORER -->
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">🎛️ Explorateur de la Fonction de Laps (N)</h2>
+      </div>
+      <div class="card-desc">
+        Modifiez le champ gravitationnel et la vitesse cinématique pour observer la variation instantanée de N et le comportement limite (N → 0 à l'horizon).
+      </div>
+
+      <div class="controls-panel">
+        <div class="control-row">
+          <span class="control-label">Masse de l'astre (en masses solaires M☉)</span>
+          <span class="control-val" id="valMass">1.0 M☉</span>
+        </div>
+        <input type="range" id="inputMass" min="0.000003" max="10" step="0.1" value="1.0" oninput="updatePhysics()">
+
+        <div class="control-row" style="margin-top: 14px;">
+          <span class="control-label">Distance au centre r (en rayons de Schwarzschild Rs)</span>
+          <span class="control-val" id="valRadius">10.0 Rs</span>
+        </div>
+        <input type="range" id="inputRadius" min="1.01" max="100" step="0.5" value="10.0" oninput="updatePhysics()">
+
+        <div class="control-row" style="margin-top: 14px;">
+          <span class="control-label">Vitesse relative v (fraction de c)</span>
+          <span class="control-val" id="valVelocity">0.10 c</span>
+        </div>
+        <input type="range" id="inputVelocity" min="0" max="0.99" step="0.01" value="0.10" oninput="updatePhysics()">
+      </div>
+
+      <div style="margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div style="background: #0d121f; padding: 12px; border-radius: 8px; border: 1px solid #1e293b;">
+          <div style="font-size: 11px; color: var(--text-muted);">Fonction de Laps (N)</div>
+          <div style="font-family: 'Courier New', monospace; font-size: 17px; font-weight: 700; color: #38bdf8;" id="resLapse">N = 0.9433</div>
+        </div>
+        <div style="background: #0d121f; padding: 12px; border-radius: 8px; border: 1px solid #1e293b;">
+          <div style="font-size: 11px; color: var(--text-muted);">Régime Métrique</div>
+          <div style="font-size: 12px; font-weight: 700; color: #34d399;" id="resRegime">Puits Gravitationnel Faible</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: COMPARATIVE NORMATIVE TABLE -->
+    <div class="card full-width">
+      <div class="card-header">
+        <h2 class="card-title">📊 Synthèse des Paramètres Métrologiques et Normes Internationales</h2>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Cadre / Emplacement</th>
+            <th>Métrique / Vitesse</th>
+            <th>Effet Relativiste Majeur</th>
+            <th>Dérive / 24h UTC</th>
+            <th>Erreur Position sans Correction</th>
+            <th>Standard Métrologique</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Terre (Géoïde)</strong></td>
+            <td>1.0 g, rotation terrestre</td>
+            <td>Référence internationale</td>
+            <td><span style="color: #38bdf8;">0.00 µs/j</span></td>
+            <td>0 m (Étalon)</td>
+            <td>TAI / UTC (BIPM / CGPM 1967)</td>
+          </tr>
+          <tr>
+            <td><strong>ISS (Orbite LEO)</strong></td>
+            <td>v ≈ 28 000 km/h, 400 km</td>
+            <td>Ralentissement cinématique dominant</td>
+            <td><span style="color: #f87171;">-28.00 µs/j</span></td>
+            <td>~8.4 km / jour</td>
+            <td>Télémétrie NASA / Roscosmos</td>
+          </tr>
+          <tr>
+            <td><strong>GPS (Orbite MEO)</strong></td>
+            <td>v ≈ 14 000 km/h, 20 200 km</td>
+            <td>Gravitation dominante (+45.7 - 7.2)</td>
+            <td><span style="color: #34d399;">+38.50 µs/j</span></td>
+            <td>> 11.5 km / jour</td>
+            <td>IS-GPS-200 / US Space Force</td>
+          </tr>
+          <tr>
+            <td><strong>Mars (Surface)</strong></td>
+            <td>M = 0.107 M⊕, r_s = 0.952 mm</td>
+            <td>Accélération gravitationnelle</td>
+            <td><span style="color: #fb923c;">+49.00 µs/j</span></td>
+            <td>~14.7 km / jour</td>
+            <td>Projet MTC / Deep Space Network</td>
+          </tr>
+          <tr>
+            <td><strong>Lune (Sélénoïde)</strong></td>
+            <td>g ≈ 1/6 g_terre, orbite elliptique</td>
+            <td>Accélération gravitationnelle prépondérante</td>
+            <td><span style="color: #c084fc;">+56.02 µs/j</span></td>
+            <td>~16.8 km / jour</td>
+            <td>LTC (UAI Rés. III, OSTP 2026)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <script>
+    // Physics and simulation state
+    let speedFactor = 1;
+    let baseTime = Date.now();
+    let accumulatedSeconds = 0;
+    let lastTick = performance.now();
+
+    // Cumulative drifts in microseconds
+    let driftCumul = {
+      iss: 0,
+      gps: 0,
+      moon: 0,
+      mars: 0
+    };
+
+    // Rates in microseconds per second of coordinate time
+    const RATES = {
+      iss: -28.0 / 86400,
+      gps: +38.5 / 86400,
+      moon: +56.02 / 86400,
+      mars: +49.00 / 86400
+    };
+
+    function setSpeed(factor) {
+      speedFactor = factor;
+      document.querySelectorAll('.btn-group button').forEach(b => b.classList.remove('active'));
+      if (factor === 1) document.getElementById('btnSpeed1').classList.add('active');
+      else if (factor === 3600) document.getElementById('btnSpeedFast').classList.add('active');
+      else if (factor === 86400) document.getElementById('btnSpeedHyper').classList.add('active');
+    }
+
+    function resetClocks() {
+      accumulatedSeconds = 0;
+      driftCumul = { iss: 0, gps: 0, moon: 0, mars: 0 };
+    }
+
+    function formatTime(totalSec) {
+      const sec = Math.floor(totalSec % 60);
+      const min = Math.floor((totalSec / 60) % 60);
+      const hrs = Math.floor((totalSec / 3600) % 24);
+      const ms = Math.floor((totalSec % 1) * 1000);
+      return `${String(hrs).padStart(2, '0')}:${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}.${String(ms).padStart(3, '0')}`;
+    }
+
+    // Animation Loop
+    function step(now) {
+      const dt = (now - lastTick) / 1000;
+      lastTick = now;
+
+      // Update simulation time
+      accumulatedSeconds += dt * speedFactor;
+
+      // Accumulate drifts
+      driftCumul.iss += RATES.iss * dt * speedFactor;
+      driftCumul.gps += RATES.gps * dt * speedFactor;
+      driftCumul.moon += RATES.moon * dt * speedFactor;
+      driftCumul.mars += RATES.mars * dt * speedFactor;
+
+      // Update Clocks UI
+      document.getElementById('clockEarth').textContent = formatTime(accumulatedSeconds);
+      document.getElementById('clockISS').textContent = formatTime(accumulatedSeconds + driftCumul.iss / 1e6);
+      document.getElementById('clockGPS').textContent = formatTime(accumulatedSeconds + driftCumul.gps / 1e6);
+      document.getElementById('clockMoon').textContent = formatTime(accumulatedSeconds + driftCumul.moon / 1e6);
+      document.getElementById('clockMars').textContent = formatTime(accumulatedSeconds + driftCumul.mars / 1e6);
+
+      // Update Drift tags
+      document.getElementById('driftISS').textContent = `Δt = ${(driftCumul.iss).toFixed(3)} µs`;
+      document.getElementById('driftGPS').textContent = `Δt = +${(driftCumul.gps).toFixed(3)} µs`;
+      document.getElementById('driftMoon').textContent = `Δt = +${(driftCumul.moon).toFixed(3)} µs`;
+      document.getElementById('driftMars').textContent = `Δt = +${(driftCumul.mars).toFixed(3)} µs`;
+
+      drawCanvas(now / 1000);
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+
+    // Canvas Foliation Drawing
+    const canvas = document.getElementById('admCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function drawCanvas(t) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // Draw background grid
+      ctx.strokeStyle = "rgba(30, 41, 59, 0.6)";
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 40) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+
+      // Draw 3 hypersurfaces: Sigma_(t-dt), Sigma_t, Sigma_(t+dt)
+      const layers = [
+        { yBase: h * 0.78, color: '#38bdf8', label: 'Σ_t (Hypersurface spatiale t)' },
+        { yBase: h * 0.42, color: '#34d399', label: 'Σ_(t+dt) (Incrément temporel dt)' }
+      ];
+
+      layers.forEach((layer, idx) => {
+        ctx.beginPath();
+        ctx.strokeStyle = layer.color;
+        ctx.lineWidth = 2.5;
+
+        for (let x = 40; x < w - 40; x += 5) {
+          // Curved well simulation
+          const distFromCenter = Math.abs(x - w / 2);
+          const well = Math.exp(-Math.pow(distFromCenter / 120, 2)) * 38;
+          const wave = Math.sin((x / 50) + t * 1.5) * 4;
+          const y = layer.yBase + well + wave;
+
+          if (x === 40) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Label
+        ctx.fillStyle = layer.color;
+        ctx.font = "11px -apple-system, sans-serif";
+        ctx.fillText(layer.label, 50, layer.yBase - 15);
+      });
+
+      // Draw Lapse Vector N * n^mu
+      const px = w * 0.42;
+      const pWell1 = Math.exp(-Math.pow((px - w / 2) / 120, 2)) * 38 + Math.sin((px / 50) + t * 1.5) * 4;
+      const py1 = layers[0].yBase + pWell1;
+
+      const pWell2 = Math.exp(-Math.pow((px - w / 2) / 120, 2)) * 38 + Math.sin((px / 50) + t * 1.5) * 4;
+      const py2 = layers[1].yBase + pWell2;
+
+      // Normal lapse line
+      ctx.beginPath();
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 3;
+      ctx.moveTo(px, py1);
+      ctx.lineTo(px, py2);
+      ctx.stroke();
+
+      // Shift line beta^i
+      const shiftX = px + 65;
+      ctx.beginPath();
+      ctx.strokeStyle = '#c084fc';
+      ctx.lineWidth = 2.5;
+      ctx.setLineDash([4, 4]);
+      ctx.moveTo(px, py2);
+      ctx.lineTo(shiftX, py2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Point dots
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(px, py1, 5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#34d399';
+      ctx.beginPath();
+      ctx.arc(shiftX, py2, 5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Annotations
+      ctx.fillStyle = '#f59e0b';
+      ctx.font = "bold 12px monospace";
+      ctx.fillText("N · dt", px - 45, (py1 + py2) / 2);
+
+      ctx.fillStyle = '#c084fc';
+      ctx.fillText("βⁱ · dt", px + 20, py2 - 8);
+    }
+
+    // Physics Calculator updates
+    function updatePhysics() {
+      const mass = parseFloat(document.getElementById('inputMass').value);
+      const r = parseFloat(document.getElementById('inputRadius').value);
+      const v = parseFloat(document.getElementById('inputVelocity').value);
+
+      document.getElementById('valMass').textContent = mass.toFixed(1) + " M☉";
+      document.getElementById('valRadius').textContent = r.toFixed(1) + " Rs";
+      document.getElementById('valVelocity').textContent = v.toFixed(2) + " c";
+
+      // N = sqrt(1 - 1/r - v^2) in dimensionless Rs units
+      const termGrav = 1 / r;
+      const termKin = v * v;
+      const arg = 1 - termGrav - termKin;
+
+      let N = 0;
+      let regime = "Régime Non Physique";
+      if (arg > 0) {
+        N = Math.sqrt(arg);
+        if (N > 0.9) regime = "Champ Faible (Newtonien / PPN)";
+        else if (N > 0.3) regime = "Champ Fort Relativiste";
+        else regime = "Extrême (Proche Horizon / Ergosurface)";
+      } else {
+        N = 0;
+        regime = "Singularité / Intérieur Horizon (N = 0)";
+      }
+
+      document.getElementById('resLapse').textContent = "N = " + N.toFixed(4);
+      document.getElementById('resRegime').textContent = regime;
+      document.getElementById('lapseDisplay').textContent = "N = " + N.toFixed(4);
+    }
+  </script>
+</body>
+</html>

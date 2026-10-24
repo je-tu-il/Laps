@@ -1,5 +1,7 @@
 # Projet Laps : Chronométrie Relativiste & Standardisation Spatiale
 
+[![Live Visualizer](https://img.shields.io/badge/Demo%20en%20Ligne-Simulateur%20sur%20GitHub%20Pages-success?style=for-the-badge&logo=github)](https://je-tu-il.github.io/Laps/)
+
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23352108.svg)](https://doi.org/10.5281/zenodo.23352108)
 [![Git Signed](https://img.shields.io/badge/Commit-Verified_Ed25519-success.svg)](#traçabilité-cryptographique-et-intégrité-légale)
@@ -78,7 +80,7 @@ Le dépôt intègre une application web de simulation autonome :
 * **Canvas interactif du feuilletage ADM 3+1** et de la fonction de laps $N$.
 * **Calculateur relativiste paramétrique** (Masse $M$, Rayon $r$, Vitesse $v$).
 
-👉 **[Lancer visualizer.html](visualizer.html)** (ouvrir dans n'importe quel navigateur, 100 % autonome, sans dépendance).
+👉 **[Accéder directement au simulateur en ligne : https://je-tu-il.github.io/Laps/](https://je-tu-il.github.io/Laps/)** (ou ouvrir `visualizer.html` en local).
 
 ---
 
