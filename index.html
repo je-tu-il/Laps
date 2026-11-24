@@ -271,13 +271,27 @@
       padding: 10px;
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
+  
+header { gap: .875rem; }
+header h1 { text-transform: none; font-size: clamp(1.15rem, 3.5vw, 1.8rem); letter-spacing: -.035em; }
+.clock-time, .clock-drift, .control-val { font-variant-numeric: tabular-nums; }
+.clock-item { min-width: 0; }
+.clock-name { line-height: 1.3; }
+.btn-group { flex-wrap: wrap; gap: .5rem; }
+:where(button, input, select):focus-visible { outline: 2px solid #a6cdf9; outline-offset: 3px; }
+@media (max-width: 520px) {
+  .clocks-grid { grid-template-columns: minmax(0, 1fr); }
+  .nav-tags { flex-wrap: wrap; }
+  .control-row { min-width: 0; }
+}
+
   </style>
 </head>
 <body>
 
   <header>
     <div class="brand">
-      <h1>PROJET LAPS — SIMULATEUR DE CHRONOMÉTRIE RELATIVISTE</h1>
+      <h1>Laps · Chronométrie relativiste</h1>
       <p>Formalisme ADM (Arnowitt-Deser-Misner) • Fonction de Laps N • Temps Lunaire Coordonné (LTC)</p>
     </div>
     <div class="nav-tags">
